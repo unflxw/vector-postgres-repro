@@ -1,0 +1,19 @@
+sources:
+  postgres:
+    type: postgresql_metrics
+    endpoints:
+      - postgresql://vector:vector@postgres:5432/vector
+
+transforms:
+  postgres_as_log:
+    type: metric_to_log
+    inputs:
+      - postgres
+
+sinks:
+  console:
+    type: console
+    inputs:
+      - postgres_as_log
+    encoding:
+      codec: logfmt

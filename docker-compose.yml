@@ -1,0 +1,17 @@
+services:
+  vector:
+    image: timberio/vector:nightly-alpine
+    volumes:
+      - ./vector.yaml:/etc/vector/vector.yaml
+    depends_on:
+      - postgres
+    environment:
+      - RUST_BACKTRACE=full
+    entrypoint: ["/usr/local/bin/vector", "-vvv"]
+  
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: vector
+      POSTGRES_PASSWORD: vector
+      POSTGRES_DB: vector
